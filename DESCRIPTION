@@ -1,11 +1,25 @@
-Package: Logistic Regression
+Package: FinalProject_1
 Type: Package
-Title: Regression Using Optimization
+Title: Logistic Regression
 Version: 0.1.0
-Author: Drew Beckwith, Kaley Fulcher
-Maintainer: Drew Beckwith <dzb0062@auburn.edu>
-Description: This package contain the basic functions to perform logistic regression and obtains different outputs from the procedure. 
-License: NA
+Author: Authors@R: c(
+    person("Drew", "Beckwith", email = "dzb0062@auburn.edu", role = c("aut","cre")),
+    person("Kaley", "Fulcher", role = "aut")
+    )
+Maintainer: The package maintainer <dzb0062@auburn.edu>
+Description: This is our final project for STAT 5210.
+    This R package inplements logistic regression using numerical optimization.
+    The outputs of our code include...
+    1. The initial values for optimizations obtained from the least-squares formula
+    2. Bootstrap confidence intervals where the user can select a significance level alpha.
+    3. Plotted predicted logistic curve to the actual values.
+    4. The resulting confusiong matrix using a cutoff value for prediction at .5
+    5. Other metrics including Prevalence, Accuracy, Sensitivity, Specificity, False Discovery Rate, Diagnostic Odds Ratio
+    6. The ability to plot any of these metrics over a grid of cutoff values from .1 to .9
+    7. Help documentation for all functions.
+License: use_gpl3_license()
 Encoding: UTF-8
 LazyData: true
+Imports:
+    ggplot2
 RoxygenNote: 7.2.1
