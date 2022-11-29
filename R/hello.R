@@ -128,16 +128,13 @@ plotRegressionCurves <- function(y, X) {
     Predicted_dataToGraph <- 1/(1+exp(-mat%*%output))
 
     finalDataFrame <- data.frame(Predicted_dataToGraph, Predicted_data$varToPlot)
-
+    ggplotDataFrame <- data.frame(X[,x], y)
+    colnames(finalDataFrame) <- c('X[,x]','y')
     colnames(finalDataFrame) <- c('y','x')
-
-    plot(y ~ X[,x], xlab=colnames(X)[x],ylab="y")
-    lines(y ~ x, finalDataFrame, lwd=2, col="green")
-
-
-
-    # mat <- matrix(data = c(rep(1, 500), rep(mean, 500), Predicted_data$varToPlot), nrow = 500, ncol = 3)
-
+    p <-ggplot2::ggplot(ggplotDataFrame, ggplot2::aes(x=X[,x], y=y)) + ggplot2::geom_point()
+    p <- p + ggplot2::geom_point(data = finalDataFrame, size = 1, ggplot2::aes(x = x, y=y, col = "Prediction"))
+    p <- p + ggplot2::xlab(colnames(X)[x]) + ggplot2::ylab("y")
+    print(p)
 
   }
 

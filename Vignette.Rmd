@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 This package is located in the GitHub Repository titled `FinalProject_1` and was created by Drew Beckwith and Kaley Fulcher.
 
-The package can compute the estimator ` $\hat{\beta}$`, create bootstrap confidence intervals, plot fitted logistic curves, output the Confusion Matrix, and output various metrics. 
+The package can compute the estimator beta hat, create bootstrap confidence intervals, plot fitted logistic curves, output the Confusion Matrix, and output various metrics. 
 
 To illustrate the abilities of this package, we will use the `adult.csv` data provided. We'll begin by uploading the package, the data, and altering the data format to fit our needs.
 
