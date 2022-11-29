@@ -60,7 +60,17 @@ beta_hat <- function(y, X) {
 
 }
 
-
+#' Preform bootstrap for dataset provided
+#' @description The user has the ability to choose (i) the significance level α to obtain for
+#' the 1−α confidence intervals for β, and (ii) the number of bootstraps which
+#'by default will be 20.
+#'
+#' @param B A \code{int} Number of bootstraps
+#' @param alpha A \code{double} Alpha for bootstrap
+#' @param y A \code{double} value of the 1 column matrix containing the response of interest.
+#' @param X An \eqn{n \times p} \code{double} value of the matrix containing the values of the predictors.
+#' @author
+#' @export
 bootStrapLogisticRegression <- function(B = 20, alpha, y, X) {
   boot_mean <- list()
   for (x in 1:ncol(X)) {
