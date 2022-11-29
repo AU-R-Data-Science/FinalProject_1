@@ -9,17 +9,14 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Vignette for the `LogisticRegression` Package
-
 This package is located in the GitHub Repository titled `FinalProject_1` and was created by Drew Beckwith and Kaley Fulcher.
 
-The package can compute the estimator beta hat, create bootstrap confidence intervals, plot fitted logistic curves, output the Confusion Matrix, and output various metrics. 
+The package can compute the estimator $\hat{\beta}$, create bootstrap confidence intervals, plot fitted logistic curves, output the Confusion Matrix, and output various metrics.
 
 To illustrate the abilities of this package, we will use the `adult.csv` data provided. We'll begin by uploading the package, the data, and altering the data format to fit our needs.
 
-
-```{r cars, include = T}
-devtools::install_github("https://github.com/AU-R-Data-Science/FinalProject_1")
+```{r cars, include = TRUE, message= FALSE, warning = FALSE}
+devtools::install_github("https://github.com/AU-R-Data-Science/FinalProject_1", force = T)
 library(FinalProject1)
 adult <- read.csv("adult.csv", sep=";")
 head(adult)
@@ -49,11 +46,11 @@ logisticRegression(datatoTest$y, datatoTest$X)
 
 ```
 
-This function gives you a large amount of information: the estimator, the confusion matrix, etc. 
+This function gives you a large amount of information: the estimator, the confusion matrix, etc.
 
-If a user doesn't need all this information, they can pick and choose what information they want by using one of the embedded/built-in functions. 
+If a user doesn't need all this information, they can pick and choose what information they want by using one of the embedded/built-in functions.
 
-For example, the user can show just the boostrap:
+For example, the user can show just the bootstrap:
 
 ```{r bootstrap}
 
@@ -79,10 +76,4 @@ plotMetric(datatoTest$y, datatoTest$X, "False Discovery Rate")
 plotMetric(datatoTest$y, datatoTest$X, "Diagnostic Odds Ratio")
 
 
-
-
 ```
-
-
-
-
