@@ -1,11 +1,10 @@
-Package: FinalProject1
+Package: Logistic Regression
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Regression Using Optimization
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: Drew Beckwith, Kaley Fulcher
+Maintainer: Drew Beckwith <dzb0062@auburn.edu>
+Description: This package contain the basic functions to perform logistic regression and obtains different outputs from the procedure. 
+License: NA
 Encoding: UTF-8
 LazyData: true
