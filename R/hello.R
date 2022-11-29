@@ -29,3 +29,33 @@ beta_hat <- function(y, X) {
 }
 
 
+bootStrapLogisticRegression <- function(B = 20, alpha, y, X) {
+  boot_mean <- list()
+  for (x in 1:ncol(X)) {
+    boot_mean[[x]] <- rep(NA, B)
+
+  }
+
+  for (i in 1:B){
+    toSample <- (cbind(y, X))
+    toSample <- toSample[sample(1:nrow(toSample), nrow(toSample), replace = TRUE), ]
+    yBoot <- toSample[,1]
+    xBoot <- toSample[,-c(1)]
+
+    betaMat <- beta_hat(yBoot, xBoot)$beta_hat
+
+    # Step 3
+    for (o in 1:ncol(X)) {
+      boot_mean[[o]][i] <- betaMat[o]
+    }
+
+  }
+
+  for (k in 1:ncol(X)) {
+    cat(colnames(X)[k], "\n")
+    print(quantile(boot_mean[[k]], c(alpha/2, 1 - alpha/2)))
+    cat("\n")
+  }
+
+
+}
