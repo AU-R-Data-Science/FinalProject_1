@@ -1,1 +1,3 @@
-# FinalProject_1
+# Linear Regression Package
+
+Created by Drew Beckwith and Kaley Fulcher
