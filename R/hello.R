@@ -59,3 +59,40 @@ bootStrapLogisticRegression <- function(B = 20, alpha, y, X) {
 
 
 }
+
+
+plotRegressionCurves <- function(y, X) {
+  par(mfrow=c(ncol(X), ncol(X)))
+  for (x in 1:ncol(X)) {
+    (X[,x])
+    Predicted_data <- data.frame(varToPlot=seq(
+      min(X[,x]), max(X[,x]),len=500))
+    mat <- matrix(data = NA, nrow = 500, ncol = ncol(X))
+    for (q in 1:ncol(X)) {
+      
+      if (q == x) {
+        mat[, q] <- Predicted_data$varToPlot
+      }
+      else {
+        mat[, q] <- mean(X[,q])
+      }
+      
+    }
+    (mat)
+    Predicted_dataToGraph <- 1/(1+exp(-mat%*%output))
+    
+    finalDataFrame <- data.frame(Predicted_dataToGraph, Predicted_data$varToPlot)
+    
+    colnames(finalDataFrame) <- c('y','x')
+    
+    plot(y ~ X[,x], xlab=colnames(X)[x],ylab="y")
+    lines(y ~ x, finalDataFrame, lwd=2, col="green")
+    
+    
+    
+    # mat <- matrix(data = c(rep(1, 500), rep(mean, 500), Predicted_data$varToPlot), nrow = 500, ncol = 3)
+    
+    
+  }
+  
+}
