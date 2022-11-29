@@ -22,6 +22,8 @@
 logisticRegression <- function(y, X) {
 
   int <- rep(1, nrow=nrow(X))
+  datatoTest$X <- X
+  datatoTest$y <- y
   datatoTest$X <- cbind(int, datatoTest$X)
 
   print("Initial values for optimization obtained from the least-squares formula: ")
@@ -72,6 +74,8 @@ beta_hat <- function(y, X) {
 #' @author
 #' @export
 bootStrapLogisticRegression <- function(B = 20, alpha, y, X) {
+  int <- rep(1, nrow=nrow(X))
+  X <- cbind(int, X)
   boot_mean <- list()
   for (x in 1:ncol(X)) {
     boot_mean[[x]] <- rep(NA, B)
@@ -237,6 +241,8 @@ getDiagnosticOddsRatio <- function(TP, TN, FN, FP) {
 #' @author
 #' @export
 plotMetric <- function(y, X, metric) {
+  int <- rep(1, nrow=nrow(X))
+  X <- cbind(int, X)
   output <- beta_hat(y, X)$beta_hat
 
   whichMetric <- tolower(metric)
@@ -246,8 +252,9 @@ plotMetric <- function(y, X, metric) {
     metricVals <- c()
     for (d in 1:length(cutOffArr)) {
       predBeforeRound <- 1/(1+exp(-X%*%output))
-      pred[predBeforeRound <= cutOffArr[d]] <- 0
-      pred[predBeforeRound > cutOffArr[d]] <- 1
+      predAfterRound <- c()
+      predAfterRound[predBeforeRound <= cutOffArr[d]] <- 0
+      predAfterRound[predBeforeRound > cutOffArr[d]] <- 1
 
       TP <- 0
       TN <- 0
@@ -255,14 +262,14 @@ plotMetric <- function(y, X, metric) {
       FP <- 0
 
       for (i in 1:nrow(y)) {
-        if (y[i] == 1 && pred[i] == 1) {
+        if (y[i] == 1 && predAfterRound[i] == 1) {
           TP <- TP + 1
-        } else if (y[i] == 0 && pred[i] == 0) {
+        } else if (y[i] == 0 && predAfterRound[i] == 0) {
           TN <- TN + 1
-        } else if (y[i] == 1 && pred[i] == 0) {
+        } else if (y[i] == 1 && predAfterRound[i] == 0) {
           FN <- FN + 1
         }
-        else if (y[i] == 0 && pred[i] == 1) {
+        else if (y[i] == 0 && predAfterRound[i] == 1) {
           FP <- FP + 1
         }
 
@@ -283,8 +290,9 @@ plotMetric <- function(y, X, metric) {
     metricVals <- c()
     for (d in 1:length(cutOffArr)) {
       predBeforeRound <- 1/(1+exp(-X%*%output))
-      pred[predBeforeRound <= cutOffArr[d]] <- 0
-      pred[predBeforeRound > cutOffArr[d]] <- 1
+      predAfterRound <- c()
+      predAfterRound[predBeforeRound <= cutOffArr[d]] <- 0
+      predAfterRound[predBeforeRound > cutOffArr[d]] <- 1
 
       TP <- 0
       TN <- 0
@@ -292,14 +300,14 @@ plotMetric <- function(y, X, metric) {
       FP <- 0
 
       for (i in 1:nrow(y)) {
-        if (y[i] == 1 && pred[i] == 1) {
+        if (y[i] == 1 && predAfterRound[i] == 1) {
           TP <- TP + 1
-        } else if (y[i] == 0 && pred[i] == 0) {
+        } else if (y[i] == 0 && predAfterRound[i] == 0) {
           TN <- TN + 1
-        } else if (y[i] == 1 && pred[i] == 0) {
+        } else if (y[i] == 1 && predAfterRound[i] == 0) {
           FN <- FN + 1
         }
-        else if (y[i] == 0 && pred[i] == 1) {
+        else if (y[i] == 0 && predAfterRound[i] == 1) {
           FP <- FP + 1
         }
 
@@ -320,8 +328,9 @@ plotMetric <- function(y, X, metric) {
     metricVals <- c()
     for (d in 1:length(cutOffArr)) {
       predBeforeRound <- 1/(1+exp(-X%*%output))
-      pred[predBeforeRound <= cutOffArr[d]] <- 0
-      pred[predBeforeRound > cutOffArr[d]] <- 1
+      predAfterRound <- c()
+      predAfterRound[predBeforeRound <= cutOffArr[d]] <- 0
+      predAfterRound[predBeforeRound > cutOffArr[d]] <- 1
 
       TP <- 0
       TN <- 0
@@ -329,14 +338,14 @@ plotMetric <- function(y, X, metric) {
       FP <- 0
 
       for (i in 1:nrow(y)) {
-        if (y[i] == 1 && pred[i] == 1) {
+        if (y[i] == 1 && predAfterRound[i] == 1) {
           TP <- TP + 1
-        } else if (y[i] == 0 && pred[i] == 0) {
+        } else if (y[i] == 0 && predAfterRound[i] == 0) {
           TN <- TN + 1
-        } else if (y[i] == 1 && pred[i] == 0) {
+        } else if (y[i] == 1 && predAfterRound[i] == 0) {
           FN <- FN + 1
         }
-        else if (y[i] == 0 && pred[i] == 1) {
+        else if (y[i] == 0 && predAfterRound[i] == 1) {
           FP <- FP + 1
         }
 
@@ -356,8 +365,9 @@ plotMetric <- function(y, X, metric) {
     metricVals <- c()
     for (d in 1:length(cutOffArr)) {
       predBeforeRound <- 1/(1+exp(-X%*%output))
-      pred[predBeforeRound <= cutOffArr[d]] <- 0
-      pred[predBeforeRound > cutOffArr[d]] <- 1
+      predAfterRound <- c()
+      predAfterRound[predBeforeRound <= cutOffArr[d]] <- 0
+      predAfterRound[predBeforeRound > cutOffArr[d]] <- 1
 
       TP <- 0
       TN <- 0
@@ -365,14 +375,14 @@ plotMetric <- function(y, X, metric) {
       FP <- 0
 
       for (i in 1:nrow(y)) {
-        if (y[i] == 1 && pred[i] == 1) {
+        if (y[i] == 1 && predAfterRound[i] == 1) {
           TP <- TP + 1
-        } else if (y[i] == 0 && pred[i] == 0) {
+        } else if (y[i] == 0 && predAfterRound[i] == 0) {
           TN <- TN + 1
-        } else if (y[i] == 1 && pred[i] == 0) {
+        } else if (y[i] == 1 && predAfterRound[i] == 0) {
           FN <- FN + 1
         }
-        else if (y[i] == 0 && pred[i] == 1) {
+        else if (y[i] == 0 && predAfterRound[i] == 1) {
           FP <- FP + 1
         }
 
@@ -393,8 +403,9 @@ plotMetric <- function(y, X, metric) {
     metricVals <- c()
     for (d in 1:length(cutOffArr)) {
       predBeforeRound <- 1/(1+exp(-X%*%output))
-      pred[predBeforeRound <= cutOffArr[d]] <- 0
-      pred[predBeforeRound > cutOffArr[d]] <- 1
+      predAfterRound <- c()
+      predAfterRound[predBeforeRound <= cutOffArr[d]] <- 0
+      predAfterRound[predBeforeRound > cutOffArr[d]] <- 1
 
       TP <- 0
       TN <- 0
@@ -402,14 +413,14 @@ plotMetric <- function(y, X, metric) {
       FP <- 0
 
       for (i in 1:nrow(y)) {
-        if (y[i] == 1 && pred[i] == 1) {
+        if (y[i] == 1 && predAfterRound[i] == 1) {
           TP <- TP + 1
-        } else if (y[i] == 0 && pred[i] == 0) {
+        } else if (y[i] == 0 && predAfterRound[i] == 0) {
           TN <- TN + 1
-        } else if (y[i] == 1 && pred[i] == 0) {
+        } else if (y[i] == 1 && predAfterRound[i] == 0) {
           FN <- FN + 1
         }
-        else if (y[i] == 0 && pred[i] == 1) {
+        else if (y[i] == 0 && predAfterRound[i] == 1) {
           FP <- FP + 1
         }
 
@@ -425,13 +436,14 @@ plotMetric <- function(y, X, metric) {
     p
 
 
-  } else if (whichMetric == "Diagnostic Odds Ratio") {
+  } else if (whichMetric == "diagnostic odds ratio") {
     cutOffArr <- c(.1, .2, .3, .4, .5, .6, .7, .8, .9)
     metricVals <- c()
     for (d in 1:length(cutOffArr)) {
       predBeforeRound <- 1/(1+exp(-X%*%output))
-      pred[predBeforeRound <= cutOffArr[d]] <- 0
-      pred[predBeforeRound > cutOffArr[d]] <- 1
+      predAfterRound <- c()
+      predAfterRound[predBeforeRound <= cutOffArr[d]] <- 0
+      predAfterRound[predBeforeRound > cutOffArr[d]] <- 1
 
       TP <- 0
       TN <- 0
@@ -439,14 +451,14 @@ plotMetric <- function(y, X, metric) {
       FP <- 0
 
       for (i in 1:nrow(y)) {
-        if (y[i] == 1 && pred[i] == 1) {
+        if (y[i] == 1 && predAfterRound[i] == 1) {
           TP <- TP + 1
-        } else if (y[i] == 0 && pred[i] == 0) {
+        } else if (y[i] == 0 && predAfterRound[i] == 0) {
           TN <- TN + 1
-        } else if (y[i] == 1 && pred[i] == 0) {
+        } else if (y[i] == 1 && predAfterRound[i] == 0) {
           FN <- FN + 1
         }
-        else if (y[i] == 0 && pred[i] == 1) {
+        else if (y[i] == 0 && predAfterRound[i] == 1) {
           FP <- FP + 1
         }
 
