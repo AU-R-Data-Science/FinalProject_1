@@ -197,7 +197,7 @@ confusionMatrix <- function(y, X) {
 getPrevalence <- function(TP, TN, FN, FP) {
   N <- FP + TN
   P <- TP + FN
-  Prev <- P / P + N
+  Prev <- P / (P + N)
 
   return(Prev)
 }
