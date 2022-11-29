@@ -1,0 +1,41 @@
+---
+title: "LogisticRegression Package Vignette"
+author: "Drew Beckwith, Kaley Fulcher"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Vignette for the `LogisticRegression` Package
+
+This package is located in the GitHub Repository titled `FinalProject_1` and was created by Drew Beckwith and Kaley Fulcher.
+
+The package can compute the estimator ` $\hat{\beta}$`, create bootstrap confidence intervals, plot fitted logistic curves, output the Confusion Matrix, and output various metrics. 
+
+To illustrate the abilities of this package, we will use the `cars.cvs` data provided. 
+
+
+```{r cars, include = T}
+install_github("AU-R-Data_Science/FinalProject_1/LogisticRegression")
+library(LogisticRegression)
+cars <- read.csv(file = "Users/kaleyfulcher/Downloads/car.data")
+summary(cars)
+```
+
+## Optimization
+
+Let's look at, for example,
+
+```{r optim, echo=F}
+
+
+```
+
+
+
+
+
+
