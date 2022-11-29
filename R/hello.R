@@ -33,8 +33,8 @@ logisticRegression <- function(y, X) {
   print("Values after optimization: ")
   write.table(output, col.names = F)
   cat("\n\n")
-  plotRegressionCurves(y, X)
-  confusionMatrix(y, X)
+  plotRegressionCurves(datatoTest$y, datatoTest$X)
+  confusionMatrix(datatoTest$y, datatoTest$X)
 
 }
 
@@ -94,6 +94,7 @@ bootStrapLogisticRegression <- function(B = 20, alpha, y, X) {
 
 
 plotRegressionCurves <- function(y, X) {
+  output <- beta_hat(y, X)$beta_hat
   par(mfrow=c(ncol(X), ncol(X)))
   for (x in 1:ncol(X)) {
     (X[,x])
@@ -110,7 +111,6 @@ plotRegressionCurves <- function(y, X) {
       }
 
     }
-    (mat)
     Predicted_dataToGraph <- 1/(1+exp(-mat%*%output))
 
     finalDataFrame <- data.frame(Predicted_dataToGraph, Predicted_data$varToPlot)
@@ -138,26 +138,24 @@ confusionMatrix <- function(y, X) {
   #y <- datatoTest$y
 
   output <- beta_hat(y, X)$beta_hat
-  (output)
   predBeforeRound <- 1/(1+exp(-X%*%output))
-  (predBeforeRound)
-  pred[predBeforeRound <= .5] <- 0
-  pred[predBeforeRound > .5] <- 1
-  (pred)
+  predAfterRound <- c()
+  predAfterRound[predBeforeRound <= .5] <- 0
+  predAfterRound[predBeforeRound > .5] <- 1
   TP <- 0
   TN <- 0
   FN <- 0
   FP <- 0
 
   for (i in 1:nrow(y)) {
-    if (y[i] == 1 && pred[i] == 1) {
+    if (y[i] == 1 && predAfterRound[i] == 1) {
       TP <- TP + 1
-    } else if (y[i] == 0 && pred[i] == 0) {
+    } else if (y[i] == 0 && predAfterRound[i] == 0) {
       TN <- TN + 1
-    } else if (y[i] == 1 && pred[i] == 0) {
+    } else if (y[i] == 1 && predAfterRound[i] == 0) {
       FN <- FN + 1
     }
-    else if (y[i] == 0 && pred[i] == 1) {
+    else if (y[i] == 0 && predAfterRound[i] == 1) {
       FP <- FP + 1
     }
 
@@ -167,11 +165,11 @@ confusionMatrix <- function(y, X) {
   Target <- factor(c(0, 1, 0, 1))
   Y      <- c(TN, FP, FN, TP)
   df <- data.frame(Prediction, Target, Y)
-  p <- ggplot(data =  df, mapping = aes(x = Target, y = Prediction)) +
-    geom_tile(aes(fill = Y), colour = "white") +
-    geom_text(aes(label = sprintf("%1.0f", Y)), vjust = 1) +
-    scale_fill_gradient(low = "red", high = "green") +
-    theme_bw() + theme(legend.position = "none")
+  p <- ggplot2::ggplot(data =  df, mapping = ggplot2::aes(x = Target, y = Prediction)) +
+    ggplot2::geom_tile(ggplot2::aes(fill = Y), colour = "white") +
+    ggplot2::geom_text(ggplot2::aes(label = sprintf("%1.0f", Y)), vjust = 1) +
+    ggplot2::scale_fill_gradient(low = "red", high = "green") +
+    ggplot2::theme_bw() + ggplot2::theme(legend.position = "none")
   print(p)
 
   cat("Prevalence: ", getPrevalence(TP, TN, FN, FP), "\n")
@@ -187,7 +185,7 @@ getPrevalence <- function(TP, TN, FN, FP) {
   P <- TP + FN
   Prev <- P / P + N
 
-  return(PT)
+  return(Prev)
 }
 
 getAccuracy <- function(TP, TN, FN, FP) {
@@ -265,8 +263,8 @@ plotMetric <- function(y, X, metric) {
     df <- data.frame(CutOff=cutOffArr,
                      Prevalence=metricVals)
 
-    p<-ggplot(data=df, aes(x=CutOff, y=Prevalence)) +
-      geom_bar(stat="identity")
+    p<-ggplot2::ggplot(data=df, ggplot2::aes(x=CutOff, y=Prevalence)) +
+      ggplot2::geom_bar(stat="identity")
     p
 
 
@@ -302,8 +300,8 @@ plotMetric <- function(y, X, metric) {
     df <- data.frame(CutOff=cutOffArr,
                      Accuracy=metricVals)
 
-    p<-ggplot(data=df, aes(x=CutOff, y=Accuracy)) +
-      geom_bar(stat="identity")
+    p<-ggplot2::ggplot(data=df, ggplot2::aes(x=CutOff, y=Accuracy)) +
+      ggplot2::geom_bar(stat="identity")
     p
 
 
@@ -339,8 +337,8 @@ plotMetric <- function(y, X, metric) {
     df <- data.frame(CutOff=cutOffArr,
                      Sensitivity=metricVals)
 
-    p<-ggplot(data=df, aes(x=CutOff, y=Sensitivity)) +
-      geom_bar(stat="identity")
+    p<-ggplot2::ggplot(data=df, ggplot2::aes(x=CutOff, y=Sensitivity)) +
+      ggplot2::geom_bar(stat="identity")
     p
 
   } else if (whichMetric == "specificity") {
@@ -375,8 +373,8 @@ plotMetric <- function(y, X, metric) {
     df <- data.frame(CutOff=cutOffArr,
                      Specificity=metricVals)
 
-    p<-ggplot(data=df, aes(x=CutOff, y=Specificity)) +
-      geom_bar(stat="identity")
+    p<-ggplot2::ggplot(data=df, ggplot2::aes(x=CutOff, y=Specificity)) +
+      ggplot2::geom_bar(stat="identity")
     p
 
 
@@ -412,8 +410,8 @@ plotMetric <- function(y, X, metric) {
     df <- data.frame(CutOff=cutOffArr,
                      FalseDiscoveryRate=metricVals)
 
-    p<-ggplot(data=df, aes(x=CutOff, y=FalseDiscoveryRate)) +
-      geom_bar(stat="identity")
+    p<-ggplot2::ggplot(data=df, ggplot2::aes(x=CutOff, y=FalseDiscoveryRate)) +
+      ggplot2::geom_bar(stat="identity")
     p
 
 
@@ -449,8 +447,8 @@ plotMetric <- function(y, X, metric) {
     df <- data.frame(CutOff=cutOffArr,
                      DiagnosticOddsRatio=metricVals)
 
-    p<-ggplot(data=df, aes(x=CutOff, y=DiagnosticOddsRatio)) +
-      geom_bar(stat="identity")
+    p<-ggplot2::ggplot(data=df, ggplot2::aes(x=CutOff, y=DiagnosticOddsRatio)) +
+      ggplot2::geom_bar(stat="identity")
     p
 
 
